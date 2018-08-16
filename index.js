@@ -13,14 +13,14 @@ function subscript(state, silent) {
       max = state.posMax,
       start = state.pos;
 
-  if (state.src.charCodeAt(start) !== 0x7E/* ~ */) { return false; }
+  if (state.src.charCodeAt(start) !== 0x25/* % */) { return false; }
   if (silent) { return false; } // don't run any pairs in validation mode
   if (start + 2 >= max) { return false; }
 
   state.pos = start + 1;
 
   while (state.pos < max) {
-    if (state.src.charCodeAt(state.pos) === 0x7E/* ~ */) {
+    if (state.src.charCodeAt(state.pos) === 0x25/* % */) {
       found = true;
       break;
     }
@@ -47,13 +47,13 @@ function subscript(state, silent) {
 
   // Earlier we checked !silent, but this implementation does not need it
   token         = state.push('sub_open', 'sub', 1);
-  token.markup  = '~';
+  token.markup  = '%';
 
   token         = state.push('text', '', 0);
   token.content = content.replace(UNESCAPE_RE, '$1');
 
   token         = state.push('sub_close', 'sub', -1);
-  token.markup  = '~';
+  token.markup  = '%';
 
   state.pos = state.posMax + 1;
   state.posMax = max;
